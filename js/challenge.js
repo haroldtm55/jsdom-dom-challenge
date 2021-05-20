@@ -35,4 +35,10 @@ heart.addEventListener('click',(event) => {
   }
   else ul.appendChild(li.cloneNode(true)).innerHTML = counter.innerHTML
   
+  for (i = 1; i<= document.querySelectorAll('li').length - 1; i++) {
+    if (document.querySelectorAll('li')[i-1].innerHTML===document.querySelectorAll('li')[i].innerHTML) {
+      document.querySelectorAll('li')[i].remove() 
+    }
+  }
+  
 })
