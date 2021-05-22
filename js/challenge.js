@@ -3,7 +3,7 @@ let timesLiked = 0
 let pauseResume = document.querySelector('button#pause')
 
 function timerStarter(value = 'on') {
-  //This function takes one argument, that can eaither be "on"/"off". If "on", the counter will start to run. If "off", the counter will pause.
+  //This function takes one argument, that can either be "on"/"off". If "on", the counter will start to run. If "off", the counter will pause.
   let swticher
   if (value === 'on') {
     switcher = window.setInterval(seconds, 1000)
@@ -71,7 +71,7 @@ heart.addEventListener('click',(event) => {
   li.innerHTML = `${counter.innerHTML} has been liked ${timesLiked} ${timesLiked === 1 ? 'time' : 'times'}`
   ul.appendChild(li)
   
-  //
+  //Once there are already 2 or more lists elements, it will automatically remove if the counter number is the same.
   for (let i = 1; i<= document.querySelectorAll('li').length - 1; i++) {
     if (document.querySelectorAll('li').length <= 1) {
       break
@@ -82,9 +82,8 @@ heart.addEventListener('click',(event) => {
   }
 })
 
-
-
 const numberExtractor = string => {
+  //Designed for this problem. It returns all the digits until first space encountered
   let number = ''
   for (i = 0; i <= string.length - 1; i++) {
     if (string.charAt(i) === ' ') {
@@ -95,3 +94,9 @@ const numberExtractor = string => {
   return parseInt(number)
 }
 
+const form = document.querySelector('div form#comment-form')
+form.addEventListener('click', (event) => {
+  event.preventDefault()
+  list.appendChild(document.createElement('p')).innerText = document.querySelector('input#comment-input').value
+  document.querySelector('input#comment-input').value = ''
+})
