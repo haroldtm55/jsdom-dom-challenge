@@ -32,10 +32,13 @@ heart.addEventListener('click',(event) => {
   const ul = document.querySelector('ul')
   
   timesLiked += 1
+  
+  //line 37 is not behaving the same as the likesTester at line 40
   li.innerHTML = `${counter.innerHTML} has been liked ${timesLiked} times`
   ul.appendChild(li)
   
-  likesTester.innerHTML = timesLiked
+  //This test works the way I want. Every time I click, the number increments by 1 and resets every new second
+  likesTester.innerHTML = timesLiked 
   
     
   for (let i = 1; i<= document.querySelectorAll('li').length - 1; i++) {
@@ -48,18 +51,6 @@ heart.addEventListener('click',(event) => {
   }
 })
 
-// const numberExtractor = function (string) {
-//   let number = string.charAt(0)
-//   for (i = 0; i <= string.length -1; i++) {
-//     if (!parseInt(string.charAt(i+1))) {
-//       return number
-//     }
-//     else {
-//       number = number + string.charAt(i+1)
-//     }
-//     return number
-//   }
-// }  
 const numberExtractor = string => {
   let number = ''
   for (i = 0; i <= string.length - 1; i++) {
