@@ -23,24 +23,14 @@ plus.addEventListener('click',() => {
   counter.innerHTML = parseInt(counter.innerHTML) + 1
 })
 
-const likesTester = document.createElement('footer')
-document.body.appendChild(likesTester)
-
 const heart = document.querySelector('button#heart')
 heart.addEventListener('click',(event) => {
   const li = document.createElement('li')
   const ul = document.querySelector('ul')
-  
   timesLiked += 1
-  
-  
-  li.innerHTML = `${counter.innerHTML} has been liked ${timesLiked} times`
+  li.innerHTML = `${counter.innerHTML} has been liked ${timesLiked} ${timesLiked === 1 ? 'time' : 'times'}`
   ul.appendChild(li)
   
-  
-  likesTester.innerHTML = timesLiked 
-  
-    
   for (let i = 1; i<= document.querySelectorAll('li').length - 1; i++) {
     if (document.querySelectorAll('li').length <= 1) {
       break
