@@ -1,5 +1,4 @@
 const counter = document.querySelector('h1#counter')
-let timesLiked = 0
 let pauseResume = document.querySelector('button#pause')
 
 function timerStarter(value = 'on') {
@@ -17,14 +16,11 @@ function seconds() {
   let time = 0
   time += 1
   counter.innerHTML = parseInt(counter.innerHTML) + time
-  timesLiked = 0
 }    
 //DOMContentLoaded listener to the document that starts the counter
 document.addEventListener('DOMContentLoaded',() => {
   counter.innerHTML = 0
   timerStarter('on') 
-  
-  // BUTTONS DON'T HAVE TO BE DECLARED AS A VARIABLE IF THEY HAVE ID??
   
   //Add a click event listener to the pause button, if clicked it will either pause or resume the counter and disable or enable the -,+ and heart buttons respectively.
   pauseResume.addEventListener('click', () => {
@@ -45,41 +41,40 @@ document.addEventListener('DOMContentLoaded',() => {
       submit.disabled = false
     }
   })
+  
 })
 
-
-// BUTTONS DON'T HAVE TO BE DECLARED AS A VARIABLE IF THEY HAVE ID
 // const minus = document.querySelector('button#minus')
 minus.addEventListener('click',() => {
-  if (counter.innerHTML > 0) {
-    counter.innerHTML = parseInt(counter.innerHTML) - 1
+  const currentValue = parseInt(counter.innerHTML)
+  if (currentValue > 0) {
+    counter.innerHTML = currentValue - 1
   }
 })
 
 // const plus = document.querySelector('button#plus')
 plus.addEventListener('click',() => {
-  counter.innerHTML = parseInt(counter.innerHTML) + 1
+  const currentValue = parseInt(counter.innerHTML)
+  counter.innerHTML = currentValue + 1
 })
 
-
-// const heart = document.querySelector('button#heart')
-// When the heart button is clicked, a list with the current counter number and the number of times liked within that counter number will be assigned to a newly created list element that is appended to the unordered list.
+let counterObj = {}
 heart.addEventListener('click',(event) => {
-  const li = document.createElement('li')
-  const ul = document.querySelector('ul')
-  timesLiked += 1
-  li.innerHTML = `${counter.innerHTML} has been liked ${timesLiked} ${timesLiked === 1 ? 'time' : 'times'}`
-  ul.appendChild(li)
+  const currentValue = parseInt(counter.innerHTML)
   
-  //Once there are already 2 or more lists elements, it will automatically remove if the counter number is the same.
-  for (let i = 1; i<= document.querySelectorAll('li').length - 1; i++) {
-    if (document.querySelectorAll('li').length <= 1) {
-      break
-    }
-    if (numberExtractor(document.querySelectorAll('li')[i-1].innerHTML)===numberExtractor(document.querySelectorAll('li')[i].innerHTML)) {
-      document.querySelectorAll('li')[i-1].remove() 
-    }
+ 
+  if (counterObj[currentValue]) {
+    counterObj[currentValue].count++
   }
+  else {
+    counterObj[currentValue] = {
+      li: document.createElement('li'),
+      count: 1,
+    }
+    document.querySelector('ul.likes').appendChild(counterObj[currentValue].li)
+  }
+  counterObj[currentValue].li.textContent = `${currentValue} has been liked ${counterObj[currentValue].count} times`
+  console.log(counterObj)
 })
 
 const numberExtractor = string => {
@@ -94,9 +89,30 @@ const numberExtractor = string => {
   return parseInt(number)
 }
 
+const timesLikedExtractor = string => {
+  const digits = ['0','1','2','3','4','5','6','7','8','9']
+  let digitList = []
+  let number = ''
+  
+  for (let i = string.length-1; i >= 0; i--) {
+    if (string.charAt(i) !== 'd') {
+      for (digit of digits) {
+        if (string.charAt(i) === digit) {
+          digitList.unshift(digit)
+        }
+      }    
+    }
+    else break
+  }
+  for (let i=0;i<=digitList.length -1;i++) {
+    number = number + digitList[i]
+  }
+  return parseInt(number)
+}
+
 const form = document.querySelector('div form#comment-form')
 form.addEventListener('click', (event) => {
   event.preventDefault()
   list.appendChild(document.createElement('p')).innerText = document.querySelector('input#comment-input').value
-  document.querySelector('input#comment-input').value = ''
+  document.getElementById('comment-form').reset()
 })
